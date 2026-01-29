@@ -21,9 +21,8 @@ public class CartApi {
         Map<Book, Integer> books = parseBooks(inputs);
         List<DiscountStack> discountStacks = bookDiscountMaker.buildDiscountStacks(books);
 
-
         return ResponseEntity.accepted()
-                .body(formattedOutput.formatOutput(discountStacks));
+                .body(formattedOutput.formatOutput(discountStacks, books));
     }
 
     private Map<Book, Integer> parseBooks(List<BooksInput> inputs) {
