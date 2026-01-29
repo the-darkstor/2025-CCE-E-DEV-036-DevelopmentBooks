@@ -16,11 +16,14 @@ public class CartApi {
 
     @PostMapping("/calculateCart")
     public ResponseEntity<String> calculateCart(@RequestBody List<BooksInput> inputs) {
+        FormattedOutput formattedOutput = new FormattedOutput();
         bookDiscountMaker = new BookDiscountMaker();
         Map<Book, Integer> books = parseBooks(inputs);
+        List<DiscountStack> discountStacks = bookDiscountMaker.buildDiscountStacks(books);
+
 
         return ResponseEntity.accepted()
-                .body(bookDiscountMaker.buildDiscountStacks(books).toString());
+                .body(formattedOutput.formatOutput(discountStacks));
     }
 
     private Map<Book, Integer> parseBooks(List<BooksInput> inputs) {
