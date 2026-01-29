@@ -1,6 +1,8 @@
 package com.example.developmentbooks.api;
 
 import com.example.developmentbooks.domain.Book;
+import com.example.developmentbooks.domain.DiscountStack;
+import com.example.developmentbooks.logic.BookDiscountMaker;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,12 +12,15 @@ import java.util.*;
 @RequestMapping("/api")
 public class CartApi {
 
+    private BookDiscountMaker bookDiscountMaker;
+
     @PostMapping("/calculateCart")
     public ResponseEntity<String> calculateCart(@RequestBody List<BooksInput> inputs) {
-        StringBuilder result = new StringBuilder();
+        bookDiscountMaker = new BookDiscountMaker();
         Map<Book, Integer> books = parseBooks(inputs);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.accepted()
+                .body(bookDiscountMaker.buildDiscountStacks(books).toString());
     }
 
     private Map<Book, Integer> parseBooks(List<BooksInput> inputs) {
