@@ -120,18 +120,17 @@ Rules clarification:
 
 ## Algorithm behavior
 
-The algorithm always chooses the **optimal discount combination**
-(for example, `4 + 4` instead of `5 + 3` when it results in a lower total price).
+The algorithm always chooses the optimal discount combination (for example, **4 + 4** instead of **5 + 3** when it results in a lower total price).
 
-
-- Discount sets are built first
-- While building discount sets, book quantities are decremented
-- After all discount sets are built, remaining books represent full-price items
-- Final cart price is calculated as:
-
-final total = discounted total + non-discounted total
-
-This guarantees correct pricing and a clean separation of responsibilities.
+- Discount sets are built first using **distinct book titles**
+- While building discount sets, book quantities are **decremented**
+- When **five distinct titles** are available, the algorithm performs a **simulation step**:
+    - It temporarily simulates taking a set of 5 books
+    - If this would leave **exactly 3 distinct titles**, the algorithm avoids the suboptimal **5 + 3** case
+    - In that situation, it builds a set of **4** instead, enabling a future **4 + 4** combination
+- After all discount sets are built, remaining books are charged at **full price**
+- The final cart price is calculated as:
+  - final total = discounted total + non-discounted total
 
 ---
 
