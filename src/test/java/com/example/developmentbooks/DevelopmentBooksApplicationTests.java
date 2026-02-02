@@ -133,4 +133,23 @@ class DevelopmentBooksApplicationTests {
 
         assertEquals(320.0, totalDiscountedPrice);
     }
+
+    @Test
+    void sixDifferentBooksShouldThrowException() {
+        BookDiscountMaker maker = new BookDiscountMaker();
+
+        Map<Book, Integer> books = new HashMap<>();
+        books.put(A, 1);
+        books.put(B, 1);
+        books.put(C, 1);
+        books.put(D, 1);
+        books.put(E, 1);
+        books.put(new Book("F", 50.0), 1);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> maker.buildDiscountStacks(books)
+        );
+    }
+
 }
