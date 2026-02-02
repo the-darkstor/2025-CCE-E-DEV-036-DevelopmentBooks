@@ -15,15 +15,13 @@ import java.util.*;
 @RequestMapping("/api")
 public class CartApi {
 
-    private BookDiscountMaker bookDiscountMaker;
-
-    private static Logger log = LoggerFactory.getLogger(CartApi.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(CartApi.class.getName());
 
     @PostMapping("/calculateCart")
     public ResponseEntity<String> calculateCart(@RequestBody List<BooksInput> inputs) {
         ResponseEntity<String> response;
         FormattedOutput formattedOutput = new FormattedOutput();
-        bookDiscountMaker = new BookDiscountMaker();
+        BookDiscountMaker bookDiscountMaker = new BookDiscountMaker();
         List<DiscountStack> discountStacks;
         Map<Book, Integer> books;
 
@@ -55,9 +53,5 @@ public class CartApi {
             }
         }
         return bookIntegerMap;
-    }
-
-    private boolean validateDistinctBooks(List<BooksInput> inputs) {
-        return inputs.size() <= 5;
     }
 }
